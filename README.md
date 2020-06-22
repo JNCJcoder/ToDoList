@@ -13,9 +13,8 @@
 </h4>
 
 <h1 align="center">
-<img src=".github/image.png?raw=true" alt="Imagem do Aplicativo" width="300px">
+<img src=".github/image.jpg?raw=true" alt="Imagem do Aplicativo" width="300px">
 </h1>
-<h5 align="center">(Imagem do BlueStacks a 1080p com 320dpi rodando o aplicativo.)</h5>
 
 ## 💻 Informações:
 
