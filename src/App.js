@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect } from "react";
 import {
   StyleSheet,
   View,
@@ -7,12 +7,12 @@ import {
   Keyboard,
   FlatList,
   TouchableOpacity,
-} from 'react-native';
-import { saveTask, loadTask } from './util/storage';
-import Header from './components/header';
+} from "react-native";
+import { saveTask, loadTask } from "./util/storage";
+import Header from "./components/header";
 
 const App = () => {
-  const [newTask, setNewTask] = useState('');
+  const [newTask, setNewTask] = useState("");
   const [Tasks, setTasks] = useState([]);
 
   useEffect(() => {
@@ -37,24 +37,25 @@ const App = () => {
     }
 
     const temp = {
+      id: Tasks.length + 1,
       done: false,
       task: newTask,
     };
     const temp2 = [temp, ...Tasks];
-    setNewTask('');
+    setNewTask("");
     setTasks(temp2);
     await saveTask(temp2);
   };
 
-  const removeTask = async (task) => {
-    const temp = Tasks.filter((item) => item.task !== task);
+  const removeTask = async (taskID) => {
+    const temp = Tasks.filter((item) => item.id !== taskID);
     setTasks(temp);
     await saveTask(temp);
   };
 
-  const changeTask = async (task) => {
+  const changeTask = async (taskID) => {
     const temp = Tasks.filter((item) => {
-      if (item.task === task) {
+      if (item.id === taskID) {
         item.done = !item.done;
       }
       return item;
@@ -67,23 +68,28 @@ const App = () => {
     <View style={styles.itemContainer}>
       <TouchableOpacity
         style={styles.checkBox}
-        onPress={() => changeTask(item.task)}>
-        <Text>{item.done ? '✔️' : '❌'}</Text>
+        onPress={() => changeTask(item.task)}
+      >
+        <Text>{item.done ? "✔️" : "❌"}</Text>
       </TouchableOpacity>
-      <TouchableOpacity onPress={() => changeTask(item.task)}>
-        {item.done ? (
-          // eslint-disable-next-line react-native/no-inline-styles
-          <Text
-            style={[styles.taskName, { textDecorationLine: 'line-through' }]}>
-            {item.task}
-          </Text>
-        ) : (
-          <Text style={styles.taskName}>{item.task}</Text>
-        )}
+      <TouchableOpacity onPress={() => changeTask(item.id)}>
+        {item.done
+          ? (
+            // eslint-disable-next-line react-native/no-inline-styles
+            <Text
+              style={[styles.taskName, { textDecorationLine: "line-through" }]}
+            >
+              {item.task}
+            </Text>
+          )
+          : (
+            <Text style={styles.taskName}>{item.task}</Text>
+          )}
       </TouchableOpacity>
       <TouchableOpacity
         style={styles.button}
-        onPress={() => removeTask(item.task)}>
+        onPress={() => removeTask(item.id)}
+      >
         <Text style={styles.buttonName}>X</Text>
       </TouchableOpacity>
     </View>
@@ -95,7 +101,7 @@ const App = () => {
       <View style={styles.content}>
         <FlatList
           data={Tasks}
-          keyExtractor={(item) => String(item.task)}
+          keyExtractor={(item) => String(item.id)}
           renderItem={addTaskToList}
         />
       </View>
@@ -122,72 +128,72 @@ const App = () => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: 'black',
+    backgroundColor: "black",
     padding: 1,
   },
   content: {
     flex: 1,
-    backgroundColor: '#2a3353',
+    backgroundColor: "#2a3353",
   },
   //
   // ItemContainer
   //
   itemContainer: {
     paddingHorizontal: 15,
-    flexDirection: 'row',
-    justifyContent: 'space-between',
+    flexDirection: "row",
+    justifyContent: "space-between",
     padding: 15,
     borderBottomWidth: 1,
-    borderColor: 'black',
+    borderColor: "black",
   },
   taskName: {
     fontSize: 20,
-    color: 'white',
+    color: "white",
   },
   button: {
     padding: 5,
     paddingHorizontal: 15,
     borderRadius: 35,
     borderWidth: 1,
-    borderColor: 'red',
-    backgroundColor: 'red',
+    borderColor: "red",
+    backgroundColor: "red",
   },
   buttonName: {
     fontSize: 15,
-    fontWeight: 'bold',
-    color: 'white',
+    fontWeight: "bold",
+    color: "white",
   },
   checkBox: {
     paddingTop: 4,
     paddingHorizontal: 10,
     borderWidth: 1,
-    borderColor: 'white',
-    backgroundColor: 'white',
+    borderColor: "white",
+    backgroundColor: "white",
   },
   checkBoxText: {
     fontSize: 14,
-    fontWeight: 'bold',
-    color: 'white',
+    fontWeight: "bold",
+    color: "white",
   },
   //
   // Footer
   //
   footer: {
-    backgroundColor: '#404a6e',
-    borderTopColor: '#000',
+    backgroundColor: "#404a6e",
+    borderTopColor: "#000",
     borderTopWidth: 1,
     borderBottomRightRadius: 15,
     borderBottomLeftRadius: 15,
-    width: '100%',
+    width: "100%",
     paddingHorizontal: 20,
-    flexDirection: 'row',
-    justifyContent: 'space-between',
+    flexDirection: "row",
+    justifyContent: "space-between",
   },
   footerTextInput: {
     fontSize: 20,
     lineHeight: 20,
     margin: 0,
-    color: 'white',
+    color: "white",
     padding: 15,
   },
   sendButton: {
@@ -196,14 +202,14 @@ const styles = StyleSheet.create({
     width: 40,
     borderWidth: 1,
     borderRadius: 15,
-    borderColor: 'green',
-    backgroundColor: 'green',
-    textAlign: 'center',
+    borderColor: "green",
+    backgroundColor: "green",
+    textAlign: "center",
   },
   sendButtonText: {
-    alignSelf: 'center',
+    alignSelf: "center",
     fontSize: 29,
-    fontWeight: 'bold',
+    fontWeight: "bold",
   },
 });
 
